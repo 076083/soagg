@@ -1,5 +1,7 @@
 package pl.edu.prz.soagg.api.feeds;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,8 @@ public class FeedEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JsonIgnore
     private Feed relatedFeed;
 
     @Column(columnDefinition = "TEXT")

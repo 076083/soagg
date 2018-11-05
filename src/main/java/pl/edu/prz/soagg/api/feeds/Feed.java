@@ -1,5 +1,8 @@
 package pl.edu.prz.soagg.api.feeds;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.edu.prz.soagg.api.accounts.ApplicationUser;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,8 +21,18 @@ public class Feed {
     @Column(columnDefinition = "TEXT")
     private String feedName;
 
+    @Enumerated(EnumType.STRING)
     private FeedType feedType;
 
+    @ManyToOne
+    @JsonIgnore
+    private FeedsGroup relatedFeedsGroup;
+
+    @ManyToOne
+    @JsonIgnore
+    private ApplicationUser relatedUser;
+
+    @OneToMany(mappedBy = "relatedFeed", cascade = CascadeType.ALL)
     private List<FeedEntry> entries;
 
     public Long getId() {
@@ -60,6 +73,22 @@ public class Feed {
 
     public void setFeedType(FeedType feedType) {
         this.feedType = feedType;
+    }
+
+    public FeedsGroup getRelatedFeedsGroup() {
+        return relatedFeedsGroup;
+    }
+
+    public void setRelatedFeedsGroup(FeedsGroup relatedFeedsGroup) {
+        this.relatedFeedsGroup = relatedFeedsGroup;
+    }
+
+    public ApplicationUser getRelatedUser() {
+        return relatedUser;
+    }
+
+    public void setRelatedUser(ApplicationUser relatedUser) {
+        this.relatedUser = relatedUser;
     }
 
     public List<FeedEntry> getEntries() {

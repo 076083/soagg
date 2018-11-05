@@ -22,8 +22,10 @@ public class ApplicationUser {
     @Column(columnDefinition = "TEXT")
     private String role;
 
+    @OneToMany(mappedBy = "relatedUser", cascade = CascadeType.ALL)
     private List<Feed> userFeeds;
 
+    @OneToMany(mappedBy = "relatedUser", cascade = CascadeType.ALL)
     private List<FeedsGroup> userCategories;
 
     public Long getId() {
