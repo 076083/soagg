@@ -42,6 +42,8 @@ Vue.component('the-banner', {
     template: `
 <div>
     </br>
+    </br>
+    </br>
     <section class="hero is-medium is-info is-bold">
         <div class="hero-body">
             <div class="container">
@@ -68,8 +70,8 @@ Vue.component('the-banner', {
 
 Vue.component('the-footer', {
     template: `
-<footer class="footer has-background-white">
-    <div class="content has-text-centered">
+<footer class="footer has-background-no">
+    <div class="content has-text-centered has-text-white-bis">
         <p>&copy; Social Media Aggregator</p>
     </div>
 </footer>
