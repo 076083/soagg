@@ -9,76 +9,18 @@
     <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js"
             integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"
+            integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<nav class="navbar is-info" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            <h4 class="title is-4 has-text-white"><i class="fab fa-slack-hash"></i> soagg</h4>
-        </a>
-
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-           data-target="navbarMenu">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarMenu" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item">
-                Home
-            </a>
-        </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-link">
-                        <strong>Create account</strong>
-                    </a>
-                    <a class="button is-light">
-                        Log in
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
-</br>
-
-<section class="hero is-medium is-info is-bold">
-    <div class="hero-body">
-        <div class="container">
-            <p class="title">
-                Welcome to the Social Media Aggregator!
-            </p>
-            <p class="subtitle">
-                Browse all your favourite social media feeds in one place!
-            </p>
-            <div class="buttons">
-                <a class="button is-link is-large">
-                    <strong>Create account</strong>
-                </a>
-                <a class="button is-light is-large">
-                    Log in
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<footer class="footer has-background-white">
-    <div class="content has-text-centered">
-        <p>
-            &copy; Social Media Aggregator
-        </p>
-    </div>
-</footer>
+<div id="app">
+    <the-header></the-header>
+    <the-banner></the-banner>
+    <the-footer></the-footer>
+</div>
 
 <script src="js/bulma.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
