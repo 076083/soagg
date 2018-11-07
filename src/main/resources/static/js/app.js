@@ -2,9 +2,9 @@ Vue.component('the-header', {
     template: `
 <nav class="navbar is-info" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            <h4 class="title is-4 has-text-white"><i class="fab fa-slack-hash"></i> soagg</h4>
-        </a>
+        <router-link class="navbar-item" to="/">
+            <h4 class="title is-4 has-text-white"><i class="fas fa-poll-h"></i> soagg</h4>
+        </router-link>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
            data-target="navbarMenu">
@@ -16,20 +16,14 @@ Vue.component('the-header', {
 
     <div id="navbarMenu" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item">
-                Home
-            </a>
+            <router-link to="/" class="navbar-item"><strong>Home</strong></router-link>
         </div>
 
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-link">
-                        <strong>Create account</strong>
-                    </a>
-                    <a class="button is-light">
-                        Log in
-                    </a>
+                <router-link to="/register" class="button is-link"><strong>Create account</strong></router-link>
+                <router-link to="/login" class="button is-light"><strong>Log in</strong></router-link>
                 </div>
             </div>
         </div>
@@ -38,7 +32,18 @@ Vue.component('the-header', {
 `
 });
 
-Vue.component('the-banner', {
+Vue.component('the-footer', {
+    template: `
+<footer class="footer has-background-no">
+    <div class="content has-text-centered has-text-white-bis">
+        <p>&copy; Social Media Aggregator</p>
+    </div>
+</footer>
+`
+});
+
+
+const ViewBanner = {
     template: `
 <div>
     </br>
@@ -54,30 +59,47 @@ Vue.component('the-banner', {
                     Browse all your favourite social media feeds in one place!
                 </p>
                 <div class="buttons">
-                    <a class="button is-link is-large">
-                        <strong>Create account</strong>
-                    </a>
-                    <a class="button is-light is-large">
-                        Log in
-                    </a>
-                </div>
+                <router-link to="/register" class="button is-link is-large"><strong>Create account</strong></router-link>
+                <router-link to="/login" class="button is-light is-large"><strong>Log in</strong></router-link>
             </div>
         </div>
     </section>
 </div>
 `
-});
+};
 
-Vue.component('the-footer', {
+const ViewRegister = {
     template: `
-<footer class="footer has-background-no">
-    <div class="content has-text-centered has-text-white-bis">
-        <p>&copy; Social Media Aggregator</p>
-    </div>
-</footer>
+<section>
+    REGISTER
+</section>
 `
+};
+
+const ViewLogin = {
+    template: `
+<section>
+    LOGIN
+</section>
+`
+};
+
+const routes = [
+    {path: '/', component: ViewBanner},
+    {path: '/register', component: ViewRegister},
+    {path: '/login', component: ViewLogin}
+];
+
+const router = new VueRouter({
+    routes
 });
 
 const app = new Vue({
+    router
+}).$mount('#app');
+
+/*
+const app = new Vue({
     el: '#app'
 });
+*/
