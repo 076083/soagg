@@ -9,3 +9,14 @@ html {
 .has-background-no {
     background-color: transparent;
 }
+
+.footer-padding {
+    padding: 2rem;
+}
+
+.main-section {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 3rem;
+    position: relative;
+}
