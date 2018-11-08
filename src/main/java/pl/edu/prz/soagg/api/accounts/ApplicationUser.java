@@ -19,6 +19,8 @@ public class ApplicationUser {
     @Column(columnDefinition = "TEXT")
     private String passwordHash;
 
+    private Boolean active;
+
     @Column(columnDefinition = "TEXT")
     private String role;
 
@@ -27,6 +29,17 @@ public class ApplicationUser {
 
     @OneToMany(mappedBy = "relatedUser", cascade = CascadeType.ALL)
     private List<FeedsGroup> userCategories;
+
+    public ApplicationUser() {
+        this.username = null;
+    }
+
+    public ApplicationUser(String username, String passwordHash) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.active = true;
+        this.role = "USER";
+    }
 
     public Long getId() {
         return id;
@@ -50,6 +63,14 @@ public class ApplicationUser {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getRole() {

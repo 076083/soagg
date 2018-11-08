@@ -3,14 +3,16 @@ import TheBanner from './components/TheBanner.js'
 import ViewRegister from './components/ViewRegister.js'
 import ViewLogin from './components/ViewLogin.js'
 
-const routes = [
-    {path: '/', component: TheBanner},
-    {path: '/register', component: ViewRegister},
-    {path: '/login', component: ViewLogin}
-];
-
 const router = new VueRouter({
-    routes
+    routes: [
+        {
+            path: '/', component: TheBanner
+        }, {
+            path: '/register', component: ViewRegister
+        }, {
+            path: '/login', component: ViewLogin
+        }
+    ]
 });
 
 const app = new Vue({

@@ -11,15 +11,26 @@ export default {
     },
     methods: {
         submitForm: function (e) {
+            this.errors = [];
+
             if (this.username && this.password && this.password2 && this.password === this.password2) {
 
-                // TODO
-                console.log('Form submit', this.username, this.password, this.password2);
+                this.$http.post(
+                    '/api/user', {
+                        username: this.username,
+                        password: this.password
+                    }).then(response => {
+                    this.$router.push({path: '/login', query: {from: 'register'}});
+                }, error => {
+                    if (error.status === 400) {
+                        this.errors.push('This username is already taken!');
+                    } else {
+                        this.errors.push('There was a problem with processing your request!');
+                    }
+                });
 
                 return true;
             }
-
-            this.errors = [];
 
             if (!this.username) {
                 this.errors.push('Username is required!');
