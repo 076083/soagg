@@ -17,7 +17,10 @@ export default {
 
                 this.$http.get('/api/user', {headers: headers}).then(response => {
                     if (response.bodyText) {
-                        // TODO: Mark as logged in!
+                        this.$store.commit({
+                            type: 'logIn',
+                            user: response.bodyText
+                        });
                         this.$router.push({path: '/'});
                     } else {
                         this.errors.push('The credentials you supplied were not correct!');

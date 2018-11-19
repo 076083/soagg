@@ -20,7 +20,19 @@ export default {
             <router-link to="/" class="navbar-item"><strong>Home</strong></router-link>
         </div>
 
-        <div class="navbar-end">
+
+
+        <div class="navbar-end" v-if="$store.state.auth">
+            <div class="navbar-item">
+                <strong class="has-text-white">Hello, {{$store.state.user}}!</strong>
+            </div>
+            <div class="navbar-item">
+                <div class="buttons">
+                <router-link to="/logout" class="button is-light is-outlined"><strong>Log out</strong></router-link>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-end" v-else>
             <div class="navbar-item">
                 <div class="buttons">
                 <router-link to="/register" class="button is-link"><strong>Create account</strong></router-link>
@@ -28,6 +40,9 @@ export default {
                 </div>
             </div>
         </div>
+        
+        
+        
     </div>
 </nav>
 `

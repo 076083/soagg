@@ -1,5 +1,5 @@
 export default {
-    name: 'TheBanner',
+    name: 'ViewBanner',
     template: `
 <div>
     <br/>
