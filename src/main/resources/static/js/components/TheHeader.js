@@ -16,22 +16,25 @@ export default {
     </div>
 
     <div id="navbarMenu" class="navbar-menu">
-        <div class="navbar-start">
-            <router-link to="/" class="navbar-item"><strong>Home</strong></router-link>
+    
+    
+    
+        <div class="navbar-start" v-if="$store.getters.isAuthenticated">
+            <router-link to="/wall" class="navbar-item"><strong><i class="fas fa-bars"></i> Wall</strong></router-link>
+            <router-link to="/categories" class="navbar-item"><strong><i class="fas fa-boxes"></i> Categories</strong></router-link>
+            <router-link to="/manage" class="navbar-item"><strong><i class="fas fa-cog"></i> Manage feeds</strong></router-link>
+        </div>
+        <div class="navbar-start" v-else>
+            <router-link to="/" class="navbar-item"><strong><i class="fas fa-bars"></i> Home</strong></router-link>
         </div>
 
 
 
-        <div class="navbar-end" v-if="$store.state.auth">
-            <div class="navbar-item">
-                <strong class="has-text-white">Hello, {{$store.state.user}}!</strong>
-            </div>
-            <div class="navbar-item">
-                <div class="buttons">
-                <router-link to="/logout" class="button is-light is-outlined"><strong>Log out</strong></router-link>
-                </div>
-            </div>
+        <div class="navbar-end" v-if="$store.getters.isAuthenticated">
+            <router-link to="/user" class="navbar-item"><strong><i class="fas fa-user"></i> Hello, {{$store.state.user}}!</strong></router-link>
+            <router-link to="/logout" class="navbar-item"><strong><i class="fas fa-sign-out-alt"></i> Log out</strong></router-link>
         </div>
+        
         <div class="navbar-end" v-else>
             <div class="navbar-item">
                 <div class="buttons">

@@ -20,3 +20,9 @@ html {
     padding: 3rem;
     position: relative;
 }
+
+.media-frame {
+    padding: 16px;
+    border: 1px solid #60aeff;
+    border-radius: 16px;
+}

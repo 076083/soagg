@@ -3,7 +3,10 @@ import ViewBanner from './components/ViewBanner.js'
 import ViewRegister from './components/ViewRegister.js'
 import ViewLogin from './components/ViewLogin.js'
 import ViewLogout from './components/ViewLogout.js'
-import ViewFeed from './components/ViewFeed.js'
+import ViewWall from './components/ViewWall.js'
+import ViewCategories from './components/ViewCategories.js'
+import ViewManage from './components/ViewManage.js'
+import ViewUser from './components/ViewUser.js'
 
 const store = new Vuex.Store({
     state: {
@@ -50,7 +53,10 @@ const router = new VueRouter({
         {path: '/login', component: ViewLogin, meta: {requiresAuthEqualTo: false}},
 
         {path: '/logout', component: ViewLogout, meta: {requiresAuthEqualTo: true}},
-        {path: '/feed', component: ViewFeed, meta: {requiresAuthEqualTo: true}}
+        {path: '/wall', component: ViewWall, meta: {requiresAuthEqualTo: true}},
+        {path: '/categories', component: ViewCategories, meta: {requiresAuthEqualTo: true}},
+        {path: '/manage', component: ViewManage, meta: {requiresAuthEqualTo: true}},
+        {path: '/user', component: ViewUser, meta: {requiresAuthEqualTo: true}}
 
     ]
 });
@@ -65,7 +71,7 @@ router.beforeEach(async (to, from, next) => {
             if (to.meta.requiresAuthEqualTo) {
                 next({path: '/login'});
             } else {
-                next({path: '/feed'});
+                next({path: '/wall'});
             }
         } else {
             next();

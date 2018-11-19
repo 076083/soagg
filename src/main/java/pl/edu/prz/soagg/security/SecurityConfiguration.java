@@ -34,7 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .anyRequest().permitAll().and().csrf().disable(); // TODO: Fix CSRF
+                .anyRequest()
+                .permitAll()
+
+                .and().csrf().disable();
 
 /*
                 .antMatchers("/", "/favicon.ico", "/index.html").permitAll()
