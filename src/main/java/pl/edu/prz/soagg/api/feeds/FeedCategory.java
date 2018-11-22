@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class FeedsGroup {
+public class FeedCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +18,7 @@ public class FeedsGroup {
     @Column(columnDefinition = "TEXT")
     private String categoryDescription;
 
-    @OneToMany(mappedBy = "relatedFeedsGroup", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "relatedFeedCategory", cascade = CascadeType.ALL)
     private List<Feed> feeds;
 
     @ManyToOne

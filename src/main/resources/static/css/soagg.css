@@ -23,6 +23,16 @@ html {
 
 .media-frame {
     padding: 16px;
+    margin-bottom: 8px;
     border: 1px solid #60aeff;
     border-radius: 16px;
+}
+
+.is-full-width {
+    width: 100%;
+}
+
+.table td, .table th {
+    text-align: center;
+    vertical-align: middle !important;
 }

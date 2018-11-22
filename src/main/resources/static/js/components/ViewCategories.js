@@ -15,8 +15,8 @@ export default {
 <section class="section">
     <div class="container">
         <div class="main-section">
-            <h1 class="title">Categories</h1>
-            <h2 class="subtitle">Your categories...</h2>
+            <h1 class="title">Your categories</h1>
+            <h2 class="subtitle">Work in progress...</h2>
           
             <PartLoading/>
           

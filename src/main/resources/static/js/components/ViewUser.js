@@ -13,8 +13,8 @@ export default {
 <section class="section">
     <div class="container">
         <div class="main-section">
-            <h1 class="title">ViewUser</h1>
-            <h2 class="subtitle">Description...</h2>
+            <h1 class="title">Your account</h1>
+            <h2 class="subtitle">Work in progress...</h2>
           
             <PartLoading/>
           

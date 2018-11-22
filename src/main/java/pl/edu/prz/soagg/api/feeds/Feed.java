@@ -13,25 +13,20 @@ public class Feed {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private String feedUrl;
-
-    @Column(columnDefinition = "TEXT")
     private String feedHandle;
-
-    @Column(columnDefinition = "TEXT")
-    private String feedName;
 
     @Enumerated(EnumType.STRING)
     private FeedType feedType;
 
     @ManyToOne
     @JsonIgnore
-    private FeedsGroup relatedFeedsGroup;
+    private FeedCategory relatedFeedCategory;
 
     @ManyToOne
     @JsonIgnore
     private ApplicationUser relatedUser;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "relatedFeed", cascade = CascadeType.ALL)
     private List<FeedEntry> entries;
 
@@ -43,28 +38,12 @@ public class Feed {
         this.id = id;
     }
 
-    public String getFeedUrl() {
-        return feedUrl;
-    }
-
-    public void setFeedUrl(String feedUrl) {
-        this.feedUrl = feedUrl;
-    }
-
     public String getFeedHandle() {
         return feedHandle;
     }
 
     public void setFeedHandle(String feedHandle) {
         this.feedHandle = feedHandle;
-    }
-
-    public String getFeedName() {
-        return feedName;
-    }
-
-    public void setFeedName(String feedName) {
-        this.feedName = feedName;
     }
 
     public FeedType getFeedType() {
@@ -75,12 +54,12 @@ public class Feed {
         this.feedType = feedType;
     }
 
-    public FeedsGroup getRelatedFeedsGroup() {
-        return relatedFeedsGroup;
+    public FeedCategory getRelatedFeedCategory() {
+        return relatedFeedCategory;
     }
 
-    public void setRelatedFeedsGroup(FeedsGroup relatedFeedsGroup) {
-        this.relatedFeedsGroup = relatedFeedsGroup;
+    public void setRelatedFeedCategory(FeedCategory relatedFeedCategory) {
+        this.relatedFeedCategory = relatedFeedCategory;
     }
 
     public ApplicationUser getRelatedUser() {

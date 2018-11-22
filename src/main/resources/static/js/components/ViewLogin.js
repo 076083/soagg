@@ -21,7 +21,11 @@ export default {
                             type: 'logIn',
                             user: response.bodyText
                         });
-                        this.$router.push({path: '/'});
+                        if (this.$route.query.redirect) {
+                            this.$router.push({path: this.$route.query.redirect});
+                        } else {
+                            this.$router.push({path: '/'});
+                        }
                     } else {
                         this.errors.push('The credentials you supplied were not correct!');
                     }
@@ -48,6 +52,7 @@ export default {
     <div class="container">
         <div class="main-section">
             <div class="notification is-success" v-if="this.$route.query.from === 'register'">You can now log in :)</div>
+            <div class="notification is-warning" v-if="this.$route.query.from === 'unauthorized'">You need to log in before continuing!</div>
             
             <h1 class="title">Log in</h1>
             <h2 class="subtitle">Log in and browse all your favourite social media feeds in one place!</h2>

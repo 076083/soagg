@@ -7,6 +7,7 @@ import ViewWall from './components/ViewWall.js'
 import ViewCategories from './components/ViewCategories.js'
 import ViewManage from './components/ViewManage.js'
 import ViewUser from './components/ViewUser.js'
+import ViewManageAdd from "./components/ViewManageAdd.js";
 
 const store = new Vuex.Store({
     state: {
@@ -48,38 +49,44 @@ async function authSetup() {
 const router = new VueRouter({
     routes: [
 
+
         {path: '/', component: ViewBanner, meta: {requiresAuthEqualTo: false}},
         {path: '/register', component: ViewRegister, meta: {requiresAuthEqualTo: false}},
         {path: '/login', component: ViewLogin, meta: {requiresAuthEqualTo: false}},
 
+
         {path: '/logout', component: ViewLogout, meta: {requiresAuthEqualTo: true}},
         {path: '/wall', component: ViewWall, meta: {requiresAuthEqualTo: true}},
         {path: '/categories', component: ViewCategories, meta: {requiresAuthEqualTo: true}},
+        {path: '/user', component: ViewUser, meta: {requiresAuthEqualTo: true}},
+
         {path: '/manage', component: ViewManage, meta: {requiresAuthEqualTo: true}},
-        {path: '/user', component: ViewUser, meta: {requiresAuthEqualTo: true}}
+        {path: '/manage/add', component: ViewManageAdd, meta: {requiresAuthEqualTo: true}}
+
 
     ]
 });
 
 router.beforeEach(async (to, from, next) => {
-    if (store.state.auth === undefined) {
-        await authSetup();
-    }
+        if (store.state.auth === undefined) {
+            await authSetup();
+        }
 
-    if (to.matched.some(record => record.meta.requiresAuthEqualTo !== undefined)) {
-        if (to.meta.requiresAuthEqualTo !== store.getters.isAuthenticated) {
-            if (to.meta.requiresAuthEqualTo) {
-                next({path: '/login'});
+        if (to.matched.some(record => record.meta.requiresAuthEqualTo !== undefined)) {
+            if (to.meta.requiresAuthEqualTo !== store.getters.isAuthenticated) {
+                if (to.meta.requiresAuthEqualTo) {
+                    next({path: '/login', query: {from: 'unauthorized', redirect: to.fullPath}});
+                } else {
+                    next({path: '/wall'});
+                }
             } else {
-                next({path: '/wall'});
+                next();
             }
         } else {
             next();
         }
-    } else {
-        next();
     }
-});
+);
 
 const app = new Vue({
     render: f => f(TheApp),

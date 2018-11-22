@@ -1,7 +1,7 @@
 package pl.edu.prz.soagg.api.accounts;
 
 import pl.edu.prz.soagg.api.feeds.Feed;
-import pl.edu.prz.soagg.api.feeds.FeedsGroup;
+import pl.edu.prz.soagg.api.feeds.FeedCategory;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ApplicationUser {
     private List<Feed> userFeeds;
 
     @OneToMany(mappedBy = "relatedUser", cascade = CascadeType.ALL)
-    private List<FeedsGroup> userCategories;
+    private List<FeedCategory> userCategories;
 
     public ApplicationUser() {
         this.username = null;
@@ -89,11 +89,11 @@ public class ApplicationUser {
         this.userFeeds = userFeeds;
     }
 
-    public List<FeedsGroup> getUserCategories() {
+    public List<FeedCategory> getUserCategories() {
         return userCategories;
     }
 
-    public void setUserCategories(List<FeedsGroup> userCategories) {
+    public void setUserCategories(List<FeedCategory> userCategories) {
         this.userCategories = userCategories;
     }
 }
