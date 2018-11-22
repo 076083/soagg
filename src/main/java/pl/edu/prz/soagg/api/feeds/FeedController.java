@@ -1,13 +1,11 @@
 package pl.edu.prz.soagg.api.feeds;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.prz.soagg.api.accounts.ApplicationUser;
 import pl.edu.prz.soagg.api.accounts.ApplicationUserRepository;
 import pl.edu.prz.soagg.api.exceptions.FeedAlreadyExistsException;
+import pl.edu.prz.soagg.api.exceptions.NotAuthorizedException;
 
 import java.security.Principal;
 import java.util.List;
@@ -45,5 +43,17 @@ public class FeedController {
     public List<Feed> getFeeds(Principal user) {
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
         return feedRepository.findAllByRelatedUser(applicationUser);
+    }
+
+    @DeleteMapping("/api/feed/{id}")
+    public void deleteFeed(Principal user, @PathVariable Long id) {
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
+        Feed feed = feedRepository.findById(id).orElse(new Feed());
+
+        if (feed.getRelatedUser() == applicationUser) {
+            feedRepository.deleteById(id);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 }

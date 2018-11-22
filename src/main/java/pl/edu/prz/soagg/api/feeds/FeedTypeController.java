@@ -24,6 +24,7 @@ public class FeedTypeController {
                             hashMap.put("id", item.toString());
                             hashMap.put("title", item.getTitle());
                             hashMap.put("icon", item.getIcon());
+                            hashMap.put("url", item.getUrl());
 
                             list.add(hashMap);
                         },

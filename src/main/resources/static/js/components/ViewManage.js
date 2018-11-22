@@ -18,16 +18,38 @@ export default {
         }
     },
     beforeMount: function () {
-        this.$http.get('/api/feed/types').then(response => {
-            this.feedTypes = response.data;
-        }, error => {
-        });
-        this.$http.get('/api/feed').then(response => {
-            this.feeds = response.data;
-        }, error => {
-        });
+        this.reloadPage();
     },
-    methods: {},
+    methods: {
+        reloadPage: function () {
+            this.feedTypes = undefined;
+            this.feedCategories = undefined; // TODO: Category
+            this.feeds = undefined;
+
+            this.$http.get('/api/feed/types').then(response => {
+                this.feedTypes = response.data;
+            }, error => {
+            });
+            this.$http.get('/api/feed').then(response => {
+                this.feeds = response.data;
+            }, error => {
+            });
+        },
+        feedTypeOf: function (feedType) {
+            const list = this.feedTypes.filter(item => item.id === feedType);
+            if (list && list.length) {
+                return list[0];
+            } else {
+                return {};
+            }
+        },
+        doDelete: function (id) {
+            this.$http.delete('/api/feed/' + id).then(response => {
+                this.reloadPage();
+            }, error => {
+            });
+        }
+    },
     template: `
 <section class="section">
     <div class="container">
@@ -43,6 +65,9 @@ export default {
             </div>
             
             <PartLoading v-if="isLoading"/>
+            <div v-else-if="!feeds.length">
+                <p class="subtitle has-text-centered">You are not subscribed to any feeds. Use button above to add a feed.</p>
+            </div>
             
             <div v-else>
             
@@ -57,18 +82,14 @@ export default {
                         </tr>
                     </thead>
                   <tbody>
-                    <tr>
-                      <td><i class="fab fa-twitter"></i> Twitter</td>
-                      <td>elonmusk</td>
-                      <td><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/elonmusk">https://twitter.com/elonmusk</a></td>
-                      <td><a class="delete is-medium"></a></td>
+                  
+                    <tr v-for="feed in feeds">
+                        <td><i v-bind:class="feedTypeOf(feed.feedType).icon"></i> {{ feedTypeOf(feed.feedType).title }}</td>
+                        <td>{{ feed.feedHandle }}</td>
+                        <td><a target="_blank" rel="noopener noreferrer" v-bind:href="feedTypeOf(feed.feedType).url + feed.feedHandle">{{ feedTypeOf(feed.feedType).url + feed.feedHandle }}</a></td>
+                        <td><a v-on:click="doDelete(feed.id)" class="delete is-medium"></a></td>
                     </tr>
-                    <tr>
-                      <td><i class="fab fa-instagram"></i> Instagram</td>
-                      <td>elonmusk</td>
-                      <td><a target="_blank" rel="noopener noreferrer" href="https://instagram.com/elonmusk">https://instagram.com/elonmusk</a></td>
-                      <td><a class="delete is-medium"></a></td>
-                    </tr>
+                    
                   </tbody>
                 </table>
                                 
