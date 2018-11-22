@@ -36,3 +36,7 @@ html {
     text-align: center;
     vertical-align: middle !important;
 }
+
+.media-entry {
+    margin-bottom: 32px;
+}

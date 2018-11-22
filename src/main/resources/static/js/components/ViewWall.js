@@ -7,19 +7,53 @@ export default {
     },
     data() {
         return {
+            feedTypes: undefined,
+            feedCategories: undefined, // TODO: Category
             feeds: undefined,
             posts: undefined
         };
     },
-    beforeMount: function () {
-        this.feeds = [1, 2, 3];
-        this.posts = [1, 2, 3];
+    computed: {
+        isLoading: function () {
+            return this.feedTypes === undefined || this.feeds === undefined || this.posts === undefined; // || this.feedCategories === undefined // TODO: Category
+        }
     },
-    methods: {},
+    beforeMount: function () {
+        this.reloadPage();
+    },
+    methods: {
+        reloadPage: function () {
+            this.feedTypes = undefined;
+            this.feedCategories = undefined; // TODO: Category
+            this.feeds = undefined;
+            this.posts = undefined;
+
+            this.$http.get('/api/feed/types').then(response => {
+                this.feedTypes = response.data;
+            }, error => {
+            });
+            this.$http.get('/api/feed').then(response => {
+                this.feeds = response.data;
+            }, error => {
+            });
+            this.$http.get('/api/post').then(response => {
+                this.posts = response.data;
+            }, error => {
+            });
+        },
+        feedTypeOf: function (feedType) {
+            const list = this.feedTypes.filter(item => item.id === feedType);
+            if (list && list.length) {
+                return list[0];
+            } else {
+                return {};
+            }
+        }
+    },
     template: `
 <section class="section">
     <div class="container">
-        <div class="main-section" v-if="feeds === undefined || posts === undefined">
+        <div class="main-section" v-if="isLoading">
             <PartLoading/>
         </div>
         <div class="main-section" v-else>
@@ -35,12 +69,13 @@ export default {
             
                     <div class="column is-5">
                         <div class="buttons is-pulled-right">
-                            <button class="button is-dark is-medium is-outlined"><strong><i class="fas fa-sync-alt"></i></strong></button>
+                            <button v-on:click="reloadPage()" class="button is-dark is-medium is-outlined"><strong><i class="fas fa-sync-alt"></i></strong></button>
                             <router-link to="/manage/add" class="button is-link is-medium"><strong><i class="fas fa-plus"></i> Add new feed</strong></router-link>
                         </div>
                     </div>
                     
             </div>
+        
         
         
             <div v-if="!feeds.length">
@@ -53,116 +88,6 @@ export default {
             <div v-else>
             
             
-<div class="media-frame">
-<article class="media">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img src="https://bulma.io/images/placeholders/128x128.png">
-    </p>
-  </figure>
-  <div class="media-content">
-    <div class="content">
-      <p>
-        <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-        <br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      </p>
-    </div>
-    <nav class="level is-mobile">
-      <div class="level-left">
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-reply"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-heart"></i></span>
-        </a>
-      </div>
-    </nav>
-  </div>
-  <div class="media-right">
-    <button class="delete"></button>
-  </div>
-</article>
-</div>
-
-            
-            
-<div class="media-frame">
-<article class="media">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img src="https://bulma.io/images/placeholders/128x128.png">
-    </p>
-  </figure>
-  <div class="media-content">
-    <div class="content">
-      <p>
-        <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-        <br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      </p>
-    </div>
-    <nav class="level is-mobile">
-      <div class="level-left">
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-reply"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-heart"></i></span>
-        </a>
-      </div>
-    </nav>
-  </div>
-  <div class="media-right">
-    <button class="delete"></button>
-  </div>
-</article>
-</div>
-
-
-            
-            
-<div class="media-frame">
-<article class="media">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img src="https://bulma.io/images/placeholders/128x128.png">
-    </p>
-  </figure>
-  <div class="media-content">
-    <div class="content">
-      <p>
-        <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-        <br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      </p>
-    </div>
-    <nav class="level is-mobile">
-      <div class="level-left">
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-reply"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-        </a>
-        <a class="level-item">
-          <span class="icon is-small"><i class="fas fa-heart"></i></span>
-        </a>
-      </div>
-    </nav>
-  </div>
-  <div class="media-right">
-    <button class="delete"></button>
-  </div>
-</article>
-</div>
-
             
             
             
@@ -172,41 +97,35 @@ export default {
             
             
             
+            <div class="card media-entry" v-for="post in posts">
+              <div class="card-image">
+                <figure class="image is-3by1">
+                  <img v-bind:src="post.entryMediaUrl">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img src="https://pbs.twimg.com/profile_images/972170159614906369/0o9cdCOp_400x400.jpg"> <!--TODO: Avatar in feed info!-->
+                    </figure>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-4">{{ post.entryTitle }}</p>
+                    <p class="subtitle is-6">@elonmusk</p> <!--TODO: Pass handle/feed info!-->
+                  </div>
+                </div>
             
+                <div class="content">
+                  {{ post.entryDescription }}
+                  <br>
+                  <time datetime="2018-11-15">11:09 - 15 lis 2018</time> <!--TODO: Date and time in feed info!-->
+                </div>
+              </div>
+            </div>
             
-            
-            
-            
-            <div class="card">
-  <div class="card-image">
-    <figure class="image is-3by1">
-      <img src="https://bulma.io/images/placeholders/720x240.png" alt="Placeholder image">
-    </figure>
-  </div>
-  <div class="card-content">
-    <div class="media">
-      <div class="media-left">
-        <figure class="image is-48x48">
-          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-        </figure>
-      </div>
-      <div class="media-content">
-        <p class="title is-4">John Smith</p>
-        <p class="subtitle is-6">@johnsmith</p>
-      </div>
-    </div>
-
-    <div class="content">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-      <a href="#">#css</a> <a href="#">#responsive</a>
-      <br>
-      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-    </div>
-  </div>
-</div>
-            
-            
+            <!--TODO: Return feed info with Avatar/handle/displayedName/url in feed info!-->
+            <!--TODO: URL to add / Subtitle not needed - add more info to Feed-->
             
             
             
@@ -224,16 +143,6 @@ export default {
             
             
             </div>
-        
-        
-
-
-            
-            
-            
-
-          
-          
         </div>
     </div>
 </section>
