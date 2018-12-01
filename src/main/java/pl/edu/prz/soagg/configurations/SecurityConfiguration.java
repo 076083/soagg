@@ -1,4 +1,4 @@
-package pl.edu.prz.soagg.security;
+package pl.edu.prz.soagg.configurations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
