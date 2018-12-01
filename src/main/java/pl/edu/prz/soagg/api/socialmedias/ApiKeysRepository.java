@@ -23,4 +23,16 @@ public class ApiKeysRepository {
                 API_KEY_FACEBOOK == null || API_KEY_FACEBOOK.isEmpty() ||
                 API_KEY_INSTAGRAM == null || API_KEY_INSTAGRAM.isEmpty());
     }
+
+    public static String getApiKeyTwitter() {
+        return API_KEY_TWITTER;
+    }
+
+    public static String getApiKeyFacebook() {
+        return API_KEY_FACEBOOK;
+    }
+
+    public static String getApiKeyInstagram() {
+        return API_KEY_INSTAGRAM;
+    }
 }
