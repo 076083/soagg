@@ -86,61 +86,32 @@ export default {
             </div>
             
             <div v-else>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <div class="card media-entry" v-for="post in posts">
-              <div class="card-image">
-                <figure class="image is-3by1">
-                  <img v-bind:src="post.entryMediaUrl">
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-left">
-                    <figure class="image is-48x48">
-                      <img src="https://pbs.twimg.com/profile_images/972170159614906369/0o9cdCOp_400x400.jpg"> <!--TODO: Avatar in feed info!-->
+                        
+                <div class="card media-entry" v-for="post in posts">
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-left">
+                        <figure class="image is-48x48">
+                          <img class="is-rounded" v-bind:src="post.account.imageUrl">
+                        </figure>
+                      </div>
+                      <div class="media-content">
+                        <p class="title is-4">{{ post.account.displayName }}</p>
+                        <p class="subtitle is-6">@{{ post.account.username }}</p> <!--TODO: Add URL to profile AND feedType info image etc.!-->
+                      </div>
+                    </div>
+                
+                    <div class="content">
+                      {{ post.text }}
+                      <br>
+                      <strong><time>{{ post.dateTime }}</time></strong> <!--TODO: Format datetime AND add URL-->
+                    </div>
+                  </div>
+                  <div class="card-image" v-if="post.imageUrl">
+                    <figure class="image is-3by1 media-image" v-bind:style="{ backgroundImage: 'url(' + post.imageUrl + ')' }">
                     </figure>
                   </div>
-                  <div class="media-content">
-                    <p class="title is-4">{{ post.entryTitle }}</p>
-                    <p class="subtitle is-6">@elonmusk</p> <!--TODO: Pass handle/feed info!-->
-                  </div>
                 </div>
-            
-                <div class="content">
-                  {{ post.entryDescription }}
-                  <br>
-                  <time datetime="2018-11-15">11:09 - 15 lis 2018</time> <!--TODO: Date and time in feed info!-->
-                </div>
-              </div>
-            </div>
-            
-            <!--TODO: Return feed info with Avatar/handle/displayedName/url in feed info!-->
-            <!--TODO: URL to add / Subtitle not needed - add more info to Feed-->
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
             </div>
         </div>

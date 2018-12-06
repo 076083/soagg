@@ -23,7 +23,7 @@ public class FeedController {
     }
 
     @PostMapping("/api/feed")
-    public void addFeed(Principal user, @RequestBody FeedDTO feedDTO) throws FeedAlreadyExistsException {
+    public void addFeed(Principal user, @RequestBody FeedDto feedDTO) throws FeedAlreadyExistsException {
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
 
         if (feedRepository.existsByRelatedUser_UsernameAndFeedTypeAndFeedHandle(applicationUser.getUsername(), feedDTO.getFeedType(), feedDTO.getFeedHandle())) {

@@ -40,3 +40,8 @@ html {
 .media-entry {
     margin-bottom: 32px;
 }
+
+.media-image {
+    background: no-repeat center;
+    background-size: cover;
+}

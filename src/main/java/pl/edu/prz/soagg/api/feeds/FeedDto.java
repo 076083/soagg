@@ -1,6 +1,6 @@
 package pl.edu.prz.soagg.api.feeds;
 
-public class FeedDTO {
+public class FeedDto {
     private String feedHandle;
 
     private FeedType feedType;

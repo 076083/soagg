@@ -1,8 +1,10 @@
 package pl.edu.prz.soagg.api.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.edu.prz.soagg.api.feeds.FeedType;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class SocialAccount {
@@ -33,6 +35,10 @@ public class SocialAccount {
 
     @Column(columnDefinition = "TEXT")
     private String profileUrl;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<SocialPost> posts;
 
     public Long getId() {
         return id;
@@ -104,5 +110,13 @@ public class SocialAccount {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    public List<SocialPost> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<SocialPost> posts) {
+        this.posts = posts;
     }
 }
