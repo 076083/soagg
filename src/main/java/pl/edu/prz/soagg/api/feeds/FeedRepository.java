@@ -9,4 +9,6 @@ public interface FeedRepository extends CrudRepository<Feed, Long> {
     boolean existsByRelatedUser_UsernameAndFeedTypeAndFeedHandle(String username, FeedType feedType, String feedHandle);
 
     List<Feed> findAllByRelatedUser(ApplicationUser applicationUser);
+
+    List<Feed> findAllByFeedType(FeedType feedType);
 }
