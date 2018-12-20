@@ -44,4 +44,10 @@ html {
 .media-image {
     background: no-repeat center;
     background-size: cover;
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.feed-wall {
+    margin-top: 60px;
 }

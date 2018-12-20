@@ -1,5 +1,6 @@
 package pl.edu.prz.soagg.api.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import pl.edu.prz.soagg.api.feeds.FeedType;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class SocialPost {
     private String postId;
 
     @Column(columnDefinition = "TEXT")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTime;
 
     @Column(columnDefinition = "TEXT")
