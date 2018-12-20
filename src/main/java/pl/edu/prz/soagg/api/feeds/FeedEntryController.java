@@ -1,6 +1,7 @@
 package pl.edu.prz.soagg.api.feeds;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.prz.soagg.api.accounts.ApplicationUser;
 import pl.edu.prz.soagg.api.accounts.ApplicationUserRepository;
@@ -26,16 +27,22 @@ public class FeedEntryController {
     }
 
     @GetMapping("/api/post")
-    public List<SocialPost> getPosts(Principal user) {
+    public List<SocialPost> getPosts(Principal user, @RequestParam(value = "s", required = false) String search) {
         if (user != null) {
             ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
 
-            List<Feed> feeds = feedRepository.findAllByRelatedUser(applicationUser);
+            List<Feed> feeds;
+            feeds = feedRepository.findAllByRelatedUser(applicationUser);
 
             List<SocialPost> list = new ArrayList<>();
 
             for (Feed feed : feeds) {
-                List<SocialPost> posts = socialPostRepository.findAllByAccount_Handle(feed.getFeedHandle());
+                List<SocialPost> posts;
+                if (search != null && !search.isEmpty()) {
+                    posts = socialPostRepository.findAllByAccount_HandleAndTextContainingIgnoreCase(feed.getFeedHandle(), search);
+                } else {
+                    posts = socialPostRepository.findAllByAccount_Handle(feed.getFeedHandle());
+                }
                 list.addAll(posts);
             }
 

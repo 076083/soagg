@@ -31,7 +31,7 @@ export default {
 
 
         <div class="navbar-end" v-if="$store.getters.isAuthenticated">
-            <router-link to="/user" class="navbar-item"><strong><i class="fas fa-user"></i> Hello, {{$store.state.user}}!</strong></router-link>
+            <p class="navbar-item"><strong class="header-color"><i class="fas fa-user"></i> Hello, {{$store.state.user}}!</strong></p>
             <router-link to="/logout" class="navbar-item"><strong><i class="fas fa-sign-out-alt"></i> Log out</strong></router-link>
         </div>
         

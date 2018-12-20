@@ -10,7 +10,8 @@ export default {
             feedTypes: undefined,
             feedCategories: undefined, // TODO: Category
             feeds: undefined,
-            posts: undefined
+            posts: undefined,
+            searchText: this.$route.query.s
         };
     },
     computed: {
@@ -23,6 +24,7 @@ export default {
     },
     methods: {
         reloadPage: function () {
+            this.searchText = this.$route.query.s;
             this.feedTypes = undefined;
             this.feedCategories = undefined; // TODO: Category
             this.feeds = undefined;
@@ -36,7 +38,7 @@ export default {
                 this.feeds = response.data;
             }, error => {
             });
-            this.$http.get('/api/post').then(response => {
+            this.$http.get('/api/post' + ((this.$route.query.s) ? ('?s=' + this.$route.query.s) : '')).then(response => {
                 this.posts = response.data;
             }, error => {
             });
@@ -47,6 +49,19 @@ export default {
                 return list[0];
             } else {
                 return {};
+            }
+        },
+        searchClear: function () {
+            if (this.searchText) {
+                this.searchText = "";
+                this.$router.push({path: '/wall'});
+                this.reloadPage();
+            }
+        },
+        search: function () {
+            if (this.searchText) {
+                this.$router.push({path: '/wall', query: {s: this.searchText}});
+                this.reloadPage();
             }
         }
     },
@@ -60,14 +75,32 @@ export default {
         
             <div class="columns">
             
-                    <div class="column is-6">
+                    <div class="column">
                         <div>
                             <p class="heading">You are currently subscribed to {{ feeds.length }} feed(s).</p>
                             <p class="title">Your wall</p>
                         </div>
                     </div>
             
-                    <div class="column is-6">
+                    <div class="column">
+                        <div class="field has-addons">
+                          <div class="control">
+                            <input v-model="searchText" @keyup.enter="search()" class="input is-medium" type="text" placeholder="Find something...">
+                          </div>
+                          <div class="control" v-if="$route.query.s">
+                            <button class="button is-medium is-primary" v-on:click="searchClear()">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                          <div class="control">
+                            <button class="button is-medium is-info" v-on:click="search()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="column">
                         <div class="buttons is-pulled-right">
                             <button v-on:click="reloadPage()" class="button is-dark is-medium is-outlined"><strong><i class="fas fa-sync-alt"></i></strong></button>
                             <router-link to="/manage/add" class="button is-link is-medium"><strong><i class="fas fa-plus"></i> Add new feed</strong></router-link>

@@ -6,7 +6,6 @@ import ViewLogout from './components/ViewLogout.js'
 import ViewWall from './components/ViewWall.js'
 import ViewCategories from './components/ViewCategories.js'
 import ViewManage from './components/ViewManage.js'
-import ViewUser from './components/ViewUser.js'
 import ViewManageAdd from "./components/ViewManageAdd.js";
 
 const store = new Vuex.Store({
@@ -58,7 +57,6 @@ const router = new VueRouter({
         {path: '/logout', component: ViewLogout, meta: {requiresAuthEqualTo: true}},
         {path: '/wall', component: ViewWall, meta: {requiresAuthEqualTo: true}},
         {path: '/categories', component: ViewCategories, meta: {requiresAuthEqualTo: true}},
-        {path: '/user', component: ViewUser, meta: {requiresAuthEqualTo: true}},
 
         {path: '/manage', component: ViewManage, meta: {requiresAuthEqualTo: true}},
         {path: '/manage/add', component: ViewManageAdd, meta: {requiresAuthEqualTo: true}}

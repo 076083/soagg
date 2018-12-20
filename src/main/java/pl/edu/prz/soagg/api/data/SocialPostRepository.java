@@ -9,5 +9,7 @@ public interface SocialPostRepository extends CrudRepository<SocialPost, Long> {
     SocialPost findFirstByFeedTypeAndPostId(FeedType feedType, String postId);
 
     List<SocialPost> findAllByAccount_Handle(String postId);
+
+    List<SocialPost> findAllByAccount_HandleAndTextContainingIgnoreCase(String postId, String search);
 }
 
