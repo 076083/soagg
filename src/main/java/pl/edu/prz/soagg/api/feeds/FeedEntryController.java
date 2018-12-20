@@ -7,6 +7,8 @@ import pl.edu.prz.soagg.api.accounts.ApplicationUser;
 import pl.edu.prz.soagg.api.accounts.ApplicationUserRepository;
 import pl.edu.prz.soagg.api.data.SocialPost;
 import pl.edu.prz.soagg.api.data.SocialPostRepository;
+import pl.edu.prz.soagg.api.socialmedias.SocialService;
+import pl.edu.prz.soagg.api.socialmedias.TwitterService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -19,17 +21,21 @@ public class FeedEntryController {
     private final ApplicationUserRepository applicationUserRepository;
     private final FeedRepository feedRepository;
     private final SocialPostRepository socialPostRepository;
+    private final SocialService socialService;
 
-    public FeedEntryController(ApplicationUserRepository applicationUserRepository, FeedRepository feedRepository, SocialPostRepository socialPostRepository) {
+    public FeedEntryController(ApplicationUserRepository applicationUserRepository, FeedRepository feedRepository, SocialPostRepository socialPostRepository, TwitterService twitterService, SocialService socialService) {
         this.applicationUserRepository = applicationUserRepository;
         this.feedRepository = feedRepository;
         this.socialPostRepository = socialPostRepository;
+        this.socialService = socialService;
     }
 
     @GetMapping("/api/post")
     public List<SocialPost> getPosts(Principal user, @RequestParam(value = "s", required = false) String search) {
         if (user != null) {
             ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
+
+            socialService.updateAll();
 
             List<Feed> feeds;
             feeds = feedRepository.findAllByRelatedUser(applicationUser);

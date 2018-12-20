@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -40,7 +39,6 @@ public class TwitterService {
         this.feedRepository = feedRepository;
     }
 
-    @Scheduled(initialDelay = 5 * 1000, fixedDelay = 30 * 60 * 1000)
     public void getTwitterAccounts() {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -94,7 +92,6 @@ public class TwitterService {
         socialAccountRepository.saveAll(list);
     }
 
-    @Scheduled(initialDelay = 10 * 1000, fixedDelay = 30 * 60 * 1000)
     public void getTwitterPosts() {
         List<Feed> feedList = feedRepository.findAllByFeedType(feedType);
         List<String> handles = feedList
@@ -116,7 +113,7 @@ public class TwitterService {
                 HttpEntity<String> entity = new HttpEntity<>(headers);
 
                 response = restTemplate.exchange(
-                        "https://api.twitter.com/1.1/statuses/user_timeline.json?exclude_replies=true&include_rts=false&screen_name=" + handle,
+                        "https://api.twitter.com/1.1/statuses/user_timeline.json?exclude_replies=true&include_rts=false&tweet_mode=extended&screen_name=" + handle,
                         HttpMethod.GET, entity, String.class);
 
             } catch (Exception ignored) {
@@ -170,7 +167,7 @@ public class TwitterService {
                     post.setFeedType(feedType);
                     post.setImageUrl(mediaUrl);
                     post.setDateTime(dateTime);
-                    post.setText(item.path("text").asText());
+                    post.setText(item.path("full_text").asText());
                     post.setPostUrl(feedType.getUrl() + account.getHandle() + "/status/" + postId);
 
                     list.add(post);

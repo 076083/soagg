@@ -6,6 +6,7 @@ import pl.edu.prz.soagg.api.accounts.ApplicationUser;
 import pl.edu.prz.soagg.api.accounts.ApplicationUserRepository;
 import pl.edu.prz.soagg.api.exceptions.FeedAlreadyExistsException;
 import pl.edu.prz.soagg.api.exceptions.NotAuthorizedException;
+import pl.edu.prz.soagg.api.socialmedias.SocialService;
 
 import java.security.Principal;
 import java.util.List;
@@ -14,11 +15,13 @@ import java.util.List;
 public class FeedController {
 
     private final FeedRepository feedRepository;
+    private final SocialService socialService;
     private final ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    public FeedController(FeedRepository feedRepository, ApplicationUserRepository applicationUserRepository) {
+    public FeedController(FeedRepository feedRepository, SocialService socialService, ApplicationUserRepository applicationUserRepository) {
         this.feedRepository = feedRepository;
+        this.socialService = socialService;
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -37,6 +40,8 @@ public class FeedController {
             newFeed.setRelatedUser(applicationUser);
 
             feedRepository.save(newFeed);
+
+            socialService.needsRefresh();
         }
     }
 
