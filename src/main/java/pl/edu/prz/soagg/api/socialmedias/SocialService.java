@@ -16,7 +16,7 @@ public class SocialService {
         this.twitterService = twitterService;
     }
 
-    @Scheduled(initialDelay = 5 * 1000, fixedDelay = 30 * 60 * 1000)
+    @Scheduled(initialDelay = 3 * 1000, fixedDelay = 30 * 60 * 1000)
     public void updateAll() {
         long minutesSinceRefresh = ChronoUnit.MINUTES.between(lastRefresh, LocalDateTime.now());
 

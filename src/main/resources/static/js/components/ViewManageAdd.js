@@ -10,7 +10,6 @@ export default {
             errors: [],
 
             feedTypes: undefined,
-            feedCategories: undefined, // TODO: Category
 
             feedType: null,
             feedHandle: "",
@@ -19,7 +18,7 @@ export default {
     },
     computed: {
         isLoading: function () {
-            return this.feedTypes === undefined; // || this.feedCategories === undefined // TODO: Category
+            return this.feedTypes === undefined;
         }
     },
     beforeMount: function () {
@@ -115,8 +114,6 @@ export default {
                 </span>
                 </p>
             </div>
-            
-            <!--TODO: Category-->
             
             <br>
             <div class="field">
