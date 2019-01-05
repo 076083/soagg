@@ -19,7 +19,6 @@ public class Feed {
     private FeedType feedType;
 
     @ManyToOne
-    @JsonIgnore
     private FeedCategory relatedFeedCategory;
 
     @ManyToOne

@@ -8,15 +8,16 @@ export default {
     data() {
         return {
             feedTypes: undefined,
-            feedCategories: undefined, // TODO: Category
+            feedCategories: undefined,
             feeds: undefined,
             posts: undefined,
-            searchText: this.$route.query.s
+            searchText: this.$route.query.s,
+            chosenCategory: this.$route.query.c
         };
     },
     computed: {
         isLoading: function () {
-            return this.feedTypes === undefined || this.feeds === undefined || this.posts === undefined; // || this.feedCategories === undefined // TODO: Category
+            return this.feedTypes === undefined || this.feeds === undefined || this.posts === undefined || this.feedCategories === undefined;
         }
     },
     beforeMount: function () {
@@ -25,8 +26,9 @@ export default {
     methods: {
         reloadPage: function () {
             this.searchText = this.$route.query.s;
+            this.chosenCategory = this.$route.query.c;
             this.feedTypes = undefined;
-            this.feedCategories = undefined; // TODO: Category
+            this.feedCategories = undefined;
             this.feeds = undefined;
             this.posts = undefined;
 
@@ -38,13 +40,25 @@ export default {
                 this.feeds = response.data;
             }, error => {
             });
-            this.$http.get('/api/post' + ((this.$route.query.s) ? ('?s=' + this.$route.query.s) : '')).then(response => {
+            this.$http.get('/api/post' + ((this.$route.query.c) ? ('?c=' + this.$route.query.c) : '') + ((this.$route.query.s) ? (((this.$route.query.c) ? '&' : '?') + 's=' + this.$route.query.s) : '')).then(response => {
                 this.posts = response.data;
+            }, error => {
+            });
+            this.$http.get('/api/category').then(response => {
+                this.feedCategories = response.data;
             }, error => {
             });
         },
         feedTypeOf: function (feedType) {
-            const list = this.feedTypes.filter(item => item.id === feedType);
+            let list = this.feedTypes.filter(item => item.id === feedType);
+            if (list && list.length) {
+                return list[0];
+            } else {
+                return {};
+            }
+        },
+        categoryOf: function (id) {
+            let list = this.feedCategories.filter(item => item.id === id);
             if (list && list.length) {
                 return list[0];
             } else {
@@ -54,15 +68,20 @@ export default {
         searchClear: function () {
             if (this.searchText) {
                 this.searchText = "";
-                this.$router.push({path: '/wall'});
+                this.$router.push({path: '/wall', query: {s: undefined, c: this.chosenCategory}});
                 this.reloadPage();
             }
         },
         search: function () {
             if (this.searchText) {
-                this.$router.push({path: '/wall', query: {s: this.searchText}});
+                this.$router.push({path: '/wall', query: {s: this.searchText, c: this.chosenCategory}});
                 this.reloadPage();
             }
+        },
+        resetCategory: function () {
+            this.chosenCategory = undefined;
+            this.$router.push({path: '/wall', query: {s: this.searchText, c: undefined}});
+            this.reloadPage();
         }
     },
     template: `
@@ -78,7 +97,8 @@ export default {
                     <div class="column">
                         <div>
                             <p class="heading">You are currently subscribed to {{ feeds.length }} feed(s).</p>
-                            <p class="title">Your wall</p>
+                            <div v-if="categoryOf(chosenCategory).categoryName"><p class="title"><a v-on:click="resetCategory()" class="button">&times;</a> {{ 'Category: ' + categoryOf(chosenCategory).categoryName }}</p></div>
+                            <p class="title" v-else><a v-if="chosenCategory" v-on:click="resetCategory()" class="button">&times;</a> Your wall</p>
                         </div>
                     </div>
             

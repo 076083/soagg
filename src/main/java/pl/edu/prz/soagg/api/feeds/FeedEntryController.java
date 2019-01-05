@@ -22,18 +22,25 @@ public class FeedEntryController {
     private final FeedRepository feedRepository;
     private final SocialPostRepository socialPostRepository;
     private final SocialService socialService;
+    private final FeedCategoryRepository feedCategoryRepository;
 
-    public FeedEntryController(ApplicationUserRepository applicationUserRepository, FeedRepository feedRepository, SocialPostRepository socialPostRepository, TwitterService twitterService, SocialService socialService) {
+    public FeedEntryController(ApplicationUserRepository applicationUserRepository, FeedRepository feedRepository, SocialPostRepository socialPostRepository, TwitterService twitterService, SocialService socialService, FeedCategoryRepository feedCategoryRepository) {
         this.applicationUserRepository = applicationUserRepository;
         this.feedRepository = feedRepository;
         this.socialPostRepository = socialPostRepository;
         this.socialService = socialService;
+        this.feedCategoryRepository = feedCategoryRepository;
     }
 
     @GetMapping("/api/post")
-    public List<SocialPost> getPosts(Principal user, @RequestParam(value = "s", required = false) String search) {
+    public List<SocialPost> getPosts(Principal user, @RequestParam(value = "s", required = false) String search, @RequestParam(value = "c", required = false) Long categoryId) {
         if (user != null) {
             ApplicationUser applicationUser = applicationUserRepository.findByUsername(user.getName());
+
+            FeedCategory feedCategory = null;
+            if (categoryId != null) {
+                feedCategory = feedCategoryRepository.findById(categoryId).orElse(null);
+            }
 
             socialService.updateAll();
 
@@ -43,6 +50,13 @@ public class FeedEntryController {
             List<SocialPost> list = new ArrayList<>();
 
             for (Feed feed : feeds) {
+
+                if (feedCategory != null) {
+                    if (feed.getRelatedFeedCategory() != feedCategory) {
+                        continue;
+                    }
+                }
+
                 List<SocialPost> posts;
                 if (search != null && !search.isEmpty()) {
                     posts = socialPostRepository.findAllByAccount_HandleAndTextContainingIgnoreCase(feed.getFeedHandle(), search);

@@ -15,10 +15,8 @@ public class FeedCategory {
     @Column(columnDefinition = "TEXT")
     private String categoryName;
 
-    @Column(columnDefinition = "TEXT")
-    private String categoryDescription;
-
-    @OneToMany(mappedBy = "relatedFeedCategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "relatedFeedCategory", cascade = CascadeType.DETACH)
+    @JsonIgnore
     private List<Feed> feeds;
 
     @ManyToOne
@@ -39,14 +37,6 @@ public class FeedCategory {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public String getCategoryDescription() {
-        return categoryDescription;
-    }
-
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
     }
 
     public List<Feed> getFeeds() {

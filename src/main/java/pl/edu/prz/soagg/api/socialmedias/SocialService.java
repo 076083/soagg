@@ -26,8 +26,6 @@ public class SocialService {
 
         lastRefresh = LocalDateTime.now();
 
-        System.out.println("Doing full refresh!"); // TODO: Remove it.
-
         twitterService.getTwitterAccounts();
         twitterService.getTwitterPosts();
     }

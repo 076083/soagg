@@ -8,13 +8,13 @@ export default {
     data() {
         return {
             feedTypes: undefined,
-            feedCategories: undefined, // TODO: Category
+            feedCategories: undefined,
             feeds: undefined
         };
     },
     computed: {
         isLoading: function () {
-            return this.feedTypes === undefined || this.feeds === undefined; // || this.feedCategories === undefined // TODO: Category
+            return this.feedTypes === undefined || this.feeds === undefined || this.feedCategories === undefined;
         }
     },
     beforeMount: function () {
@@ -23,7 +23,7 @@ export default {
     methods: {
         reloadPage: function () {
             this.feedTypes = undefined;
-            this.feedCategories = undefined; // TODO: Category
+            this.feedCategories = undefined;
             this.feeds = undefined;
 
             this.$http.get('/api/feed/types').then(response => {
@@ -32,6 +32,10 @@ export default {
             });
             this.$http.get('/api/feed').then(response => {
                 this.feeds = response.data;
+            }, error => {
+            });
+            this.$http.get('/api/category').then(response => {
+                this.feedCategories = response.data;
             }, error => {
             });
         },
@@ -45,6 +49,17 @@ export default {
         },
         doDelete: function (id) {
             this.$http.delete('/api/feed/' + id).then(response => {
+                this.reloadPage();
+            }, error => {
+            });
+        },
+        saveCategory: function (feedId, categoryId) {
+            if (categoryId) {
+                categoryId = categoryId.id;
+            } else {
+                categoryId = '-1';
+            }
+            this.$http.put('/api/category/' + feedId + '/' + categoryId).then(response => {
                 this.reloadPage();
             }, error => {
             });
@@ -77,7 +92,7 @@ export default {
                             <th>Feed type</th>
                             <th>Feed username</th>
                             <th>Feed link</th>
-                            <!--TODO: Category-->
+                            <th>Category</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -87,6 +102,27 @@ export default {
                         <td><i v-bind:class="feedTypeOf(feed.feedType).icon"></i> {{ feedTypeOf(feed.feedType).title }}</td>
                         <td>{{ feed.feedHandle }}</td>
                         <td><a target="_blank" rel="noopener noreferrer" v-bind:href="feedTypeOf(feed.feedType).url + feed.feedHandle">{{ feedTypeOf(feed.feedType).url + feed.feedHandle }}</a></td>
+                        
+                        <td>
+
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <div class="select is-full-width">
+                                        <select @change="saveCategory(feed.id, feed.relatedFeedCategory)" class="is-full-width" v-model="feed.relatedFeedCategory" id="relatedFeedCategory" name="relatedFeedCategory">
+                                            <option :value="null" selected>No category</option>
+                                            <option v-for="option in feedCategories" v-bind:value="option">
+                                                {{ option.categoryName }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                      <i class="fas fa-boxes"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </td>
+                        
                         <td><a v-on:click="doDelete(feed.id)" class="delete is-medium"></a></td>
                     </tr>
                     
